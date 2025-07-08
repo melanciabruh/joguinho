@@ -1,0 +1,50 @@
+body {
+    font-family: Arial, sans-serif; /* Fonte do texto */
+    text-align: center; /* Centraliza o texto */
+    background-color: #f5f5f5; /* Cor de fundo clara */
+}
+
+#info {
+    font-size: 20px; /* Tamanho da fonte */
+    margin: 10px; /* Espaçamento em volta */
+}
+
+#buttons {
+    margin-bottom: 15px; /* Espaço abaixo dos botões */
+}
+
+#buttons button {
+    padding: 10px 20px; /* Espaçamento interno dos botões */
+    font-size: 16px; /* Tamanho da fonte dos botões */
+    margin: 0 5px; /* Espaçamento horizontal entre botões */
+    cursor: pointer; /* Cursor tipo mãozinha ao passar sobre botão */
+}
+
+#gameArea {
+    position: relative; /* Para posicionar elementos filhos absolutamente */
+    width: 600px; /* Largura da área do jogo */
+    height: 400px; /* Altura da área do jogo */
+    margin: 0 auto; /* Centraliza horizontalmente */
+    background-color: #ddd; /* Fundo cinza */
+    border: 2px solid #333; /* Borda escura */
+}
+
+#square {
+    position: absolute; /* Permite mover o quadrado dentro do gameArea */
+    width: 50px; /* Largura do quadrado */
+    height: 50px; /* Altura do quadrado */
+    background-color: red; /* Cor vermelha */
+    cursor: pointer; /* Cursor tipo mãozinha ao passar no quadrado */
+    transition: top 0.3s, left 0.3s; /* Animação suave ao mudar de posição */
+    display: none; /* Inicialmente oculto até o jogo começar */
+}
+#bonus {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    background-color: gold;
+    border: 2px solid orange;
+    border-radius: 50%; /* formato de círculo */
+    display: none;
+    cursor: pointer;
+}
