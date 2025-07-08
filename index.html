@@ -3,7 +3,8 @@
 
 <head>
     <meta charset="UTF-8" /> <!-- Define a codificação da página -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /> <!-- Responsividade para dispositivos móveis -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Responsividade para dispositivos móveis -->
     <title>Jogo do Quadrado</title> <!-- Título da página -->
     <link rel="stylesheet" href="style.css" /> <!-- Link para o arquivo CSS externo -->
 </head>
@@ -20,15 +21,22 @@
     <div id="buttons">
         <button id="startBtn">▶️ Iniciar</button> <!-- Botão para iniciar o jogo -->
         <button id="pauseBtn" disabled>⏸️ Pausar</button> <!-- Botão para pausar o jogo (desabilitado inicialmente) -->
-        <button id="restartBtn" style="display:none;">🔄 Reiniciar</button> <!-- Botão para reiniciar o jogo (invisível inicialmente) -->
+        <button id="restartBtn" style="display:none;">🔄 Reiniciar</button>
+        <!-- Botão para reiniciar o jogo (invisível inicialmente) -->
     </div>
 
+    <div id="ranking">
+        <h2>🏆 Ranking</h2>
+        <ol id="rankingList"></ol>
+    </div>
+    
     <div id="gameArea">
         <div id="square"></div> <!-- O quadrado que o jogador deve clicar -->
         <div id="bonus"></div>
-        
+
     </div>
 
+    </script>
     <script src="script.js"></script> <!-- Link para o arquivo JavaScript -->
 
 </body>

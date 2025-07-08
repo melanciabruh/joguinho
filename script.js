@@ -3,6 +3,7 @@ const bonus = document.getElementById("bonus");
 const gameArea = document.getElementById("gameArea");
 const scoreDisplay = document.getElementById("score");
 const timeDisplay = document.getElementById("time");
+const rankingList = document.getElementById("rankingList");
 
 const startBtn = document.getElementById("startBtn");
 const pauseBtn = document.getElementById("pauseBtn");
@@ -21,7 +22,9 @@ let gamePaused = false;
 let moveInterval, timerInterval;
 let bonusTimeout, bonusInterval;
 
-// Move quadrado vermelho
+// ========== Funções do Jogo ==========
+
+// Move o quadrado vermelho
 function moveSquare() {
     if (!gameActive || gamePaused) return;
 
@@ -47,12 +50,10 @@ function showBonus() {
     bonus.style.top = `${randomY}px`;
     bonus.style.display = "block";
 
-    // Oculta após 1 segundo
     bonusTimeout = setTimeout(() => {
         bonus.style.display = "none";
     }, 1000);
 
-    // Reagenda o próximo bônus de 3 a 6 segundos
     const nextBonusTime = Math.floor(Math.random() * 3000) + 3000;
     bonusInterval = setTimeout(showBonus, nextBonusTime);
 }
@@ -74,7 +75,7 @@ bonus.addEventListener("click", () => {
     clearTimeout(bonusTimeout);
 });
 
-// Início do jogo
+// Iniciar o jogo
 function startGame() {
     gameActive = true;
     gamePaused = false;
@@ -93,29 +94,25 @@ function startGame() {
 
     moveSquare();
     moveInterval = setInterval(moveSquare, 1000);
-
-    showBonus(); // Inicia os bônus
+    showBonus();
 
     timerInterval = setInterval(() => {
         if (!gamePaused) {
             timeLeft--;
             timeDisplay.textContent = timeLeft;
-
             if (timeLeft <= 0) gameOver();
         }
     }, 1000);
 }
 
-// Pausar/continuar
+// Pausar / Continuar
 function pauseGame() {
     if (!gameActive) return;
 
     gamePaused = !gamePaused;
     pauseBtn.textContent = gamePaused ? "▶️ Continuar" : "⏸️ Pausar";
 
-    if (!gamePaused) {
-        moveSquare(); // move de novo se voltar do pause
-    }
+    if (!gamePaused) moveSquare();
 }
 
 // Fim do jogo
@@ -128,19 +125,52 @@ function gameOver() {
 
     square.style.display = "none";
     bonus.style.display = "none";
-
     pauseBtn.disabled = true;
     restartBtn.style.display = "inline-block";
 
-    alert(`⏰ Fim de jogo! Você fez ${score} ponto(s).`);
+    setTimeout(() => {
+        const name = prompt(`⏰ Fim de jogo! Você fez ${score} ponto(s).\nDigite seu nome para entrar no ranking:`);
+
+        if (name) {
+            addToRanking(name, score);
+        }
+
+        updateRankingDisplay();
+    }, 100);
 }
 
-// Reinício
+// Reiniciar o jogo
 function restartGame() {
     startGame();
 }
 
-// Eventos dos botões
+// ========== Funções do Ranking ==========
+
+// Adiciona ao ranking e salva no localStorage
+function addToRanking(name, score) {
+    const ranking = JSON.parse(localStorage.getItem("ranking")) || [];
+
+    ranking.push({ name, score });
+    ranking.sort((a, b) => b.score - a.score); // Maior primeiro
+    localStorage.setItem("ranking", JSON.stringify(ranking));
+}
+
+// Atualiza visualmente o ranking na tela
+function updateRankingDisplay() {
+    const ranking = JSON.parse(localStorage.getItem("ranking")) || [];
+    rankingList.innerHTML = "";
+
+    ranking.slice(0, 5).forEach(entry => {
+        const li = document.createElement("li");
+        li.textContent = `${entry.name}: ${entry.score} pts`;
+        rankingList.appendChild(li);
+    });
+}
+
+// ========== Eventos dos botões ==========
 startBtn.addEventListener("click", startGame);
 pauseBtn.addEventListener("click", pauseGame);
 restartBtn.addEventListener("click", restartGame);
+
+// Exibe o ranking ao carregar
+updateRankingDisplay();
